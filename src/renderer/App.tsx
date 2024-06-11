@@ -1,14 +1,16 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home';
+
 import './App.css';
-import HomePage from './pages/HomePage';
-import NewPage from './pages/NewPage';
+import Login from './pages/Login';
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/newpage" element={<NewPage />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/home-page" element={<Home />} />
       </Routes>
     </Router>
   );
