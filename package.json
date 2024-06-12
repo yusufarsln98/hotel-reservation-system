@@ -96,7 +96,9 @@
     }
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.7",
     "antd": "^5.18.0",
+    "axios": "^1.7.2",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^6.1.4",
