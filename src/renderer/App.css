@@ -3,12 +3,9 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 body {
-  position: relative;
-  height: 100vh;
   overflow-y: hidden;
-  display: flex;
   justify-content: center;
-  padding-top: 8px; // height of the menu
+  padding: 0;
 }
 
 /* button {
