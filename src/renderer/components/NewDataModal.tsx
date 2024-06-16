@@ -9,7 +9,7 @@ function NewDataModal({
   setModalVisible,
   columns,
   title,
-  tableName,
+  table,
   setRefetch,
   hiddenFields,
 }: {
@@ -17,8 +17,8 @@ function NewDataModal({
   setModalVisible: (value: boolean) => void;
   columns: ColumnsType<any>;
   title: string;
-  tableName: string;
-  setRefetch: (value: boolean) => void;
+  table: string;
+  setRefetch: (value: any) => void;
   // eslint-disable-next-line react/require-default-props
   hiddenFields?: string[];
 }) {
@@ -26,7 +26,7 @@ function NewDataModal({
   const [newForm] = useForm();
   const newRecord = async (values: typeof columns) => {
     try {
-      const queryText = `INSERT INTO ${tableName} (${Object.keys(values).join(
+      const queryText = `INSERT INTO ${table} (${Object.keys(values).join(
         ', ',
       )}) VALUES (${Object.values(values)
         .map((value) => (typeof value === 'string' ? `"${value}"` : value))
@@ -34,7 +34,7 @@ function NewDataModal({
       console.log('queryText', queryText);
       await query(queryText);
       message.success('Record added');
-      setRefetch((prev) => !prev);
+      setRefetch((prev: any) => !prev);
     } catch (error: any) {
       console.error(error);
       message.error(

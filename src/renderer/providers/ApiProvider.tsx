@@ -16,9 +16,12 @@ const isAuth = async () => {
   return axios.get(`${API_URL}/isAuth`);
 };
 
-// query
 const query = async (sqlQuery: string) => {
   return axios.post(`${API_URL}/query`, { query: sqlQuery });
+};
+
+const walkInReservation = async (values: any) => {
+  return axios.post(`${API_URL}/walk-in-reservation`, values);
 };
 
 // create a context for the API URL
@@ -28,6 +31,7 @@ const ApiContext = createContext({
   query,
   logout,
   isAuth,
+  walkInReservation,
 });
 function ApiProvider({ children }: any) {
   const apiValue = useMemo(
@@ -37,6 +41,7 @@ function ApiProvider({ children }: any) {
       query,
       logout,
       isAuth,
+      walkInReservation,
     }),
     [],
   );

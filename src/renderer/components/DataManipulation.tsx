@@ -1,21 +1,43 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Flex, Input, Typography } from 'antd';
+import { Button, Flex, Input, Typography, message } from 'antd';
+import { useContext } from 'react';
+import { ApiContext } from '../providers/ApiProvider';
 
 function DataManipulation({
   setWhere,
-  handleDelete,
   selectedKeys,
   setFilterModalVisible,
-  setNewModalVisible,
+  setAddModalVisible,
   title,
+  setRefetch,
+  table,
+  tableId,
 }: {
   setWhere: (value: string) => void;
-  handleDelete: () => Promise<void>;
   selectedKeys: never[];
   setFilterModalVisible: (value: boolean) => void;
-  setNewModalVisible: (value: boolean) => void;
+  setAddModalVisible: (value: boolean) => void;
   title: string;
+  setRefetch: (value: any) => void;
+  table: string;
+  tableId: string;
 }) {
+  const { query } = useContext(ApiContext);
+
+  const handleDelete = async () => {
+    try {
+      const res: any = await query(
+        `DELETE FROM ${table} WHERE ${tableId} IN (${selectedKeys.join(',')})`,
+      );
+      message.success(JSON.stringify(res.data));
+      console.log(res.data);
+      setRefetch((prev: any) => !prev);
+    } catch (error: any) {
+      message.error(JSON.stringify(error.response.data));
+      console.error(error.response.data);
+    }
+  };
+
   return (
     <>
       <Typography.Title level={2}>{title}</Typography.Title>
@@ -39,7 +61,8 @@ function DataManipulation({
           onClick={handleDelete}
           disabled={selectedKeys.length === 0}
         >
-          Delete
+          Delete{' '}
+          {selectedKeys.length > 0 ? `(${selectedKeys.length}) items` : ''}
         </Button>
         <Flex gap={20}>
           <Flex gap={10}>
@@ -62,7 +85,7 @@ function DataManipulation({
           <Button
             type="primary"
             onClick={() => {
-              setNewModalVisible(true);
+              setAddModalVisible(true);
             }}
             icon={<PlusCircleOutlined />}
           >

@@ -6,7 +6,7 @@ import {
   LogoutOutlined,
 } from '@ant-design/icons';
 import { Header } from 'antd/es/layout/layout';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { ApiContext } from '../providers/ApiProvider';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -15,6 +15,10 @@ function AppLayout({ children }: any) {
   const { logout } = useContext(ApiContext);
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+
+  // get location to set default selected key
+  const location = useLocation();
+  const defaultSelectedKey = location.pathname.split('/')[1];
 
   const handleLogout = async () => {
     await logout();
@@ -27,33 +31,75 @@ function AppLayout({ children }: any) {
 
   const items: MenuItem[] = [
     {
-      key: '1',
+      key: 'reservations',
       label: 'Reservations',
       onClick: () => navigate('/reservations'),
     },
-    { key: '2', label: 'Guests', onClick: () => navigate('/guests') },
-    { key: '3', label: 'Rooms', onClick: () => navigate('/rooms') },
-    { key: '4', label: 'Staff', onClick: () => navigate('/staff') },
-    { key: '5', label: 'Services', onClick: () => navigate('/services') },
+    { key: 'guests', label: 'Guests', onClick: () => navigate('/guests') },
+    { key: 'rooms', label: 'Rooms', onClick: () => navigate('/rooms') },
+    { key: 'staff', label: 'Staff', onClick: () => navigate('/staff') },
     {
-      key: '6',
+      key: 'services',
+      label: 'Services',
+      onClick: () => navigate('/services'),
+    },
+    {
+      key: 'reservation-service',
       label: 'Reservation Service',
       onClick: () => navigate('/reservation-service'),
     },
     {
-      key: '7',
+      key: 'price-change-log',
       label: 'Price Change Log',
       onClick: () => navigate('/price-change-log'),
     },
-    { key: '8', label: 'Payments', onClick: () => navigate('/payments') },
-    { key: '9', label: 'Feedbacks', onClick: () => navigate('/feedbacks') },
     {
-      key: '10',
-      label: 'Maintenance Requests',
-      onClick: () => navigate('/maintenance-requests'),
+      key: 'payments',
+      label: 'Payments',
+      onClick: () => navigate('/payments'),
     },
     {
-      key: '11',
+      key: 'available-rooms',
+      label: 'Available Rooms',
+      onClick: () => navigate('/available-rooms'),
+    },
+    {
+      key: 'guest-reservations',
+      label: 'Guest Reservations',
+      onClick: () => navigate('/guest-reservations'),
+    },
+    {
+      key: 'rooms-with-reservations',
+      label: 'Rooms With Reservations',
+      onClick: () => navigate('/rooms-with-reservations'),
+    },
+    {
+      key: 'guests-with-reservations',
+      label: 'Guests With Reservations',
+      onClick: () => navigate('/guests-with-reservations'),
+    },
+    {
+      key: 'current-guests',
+      label: 'Current Guests',
+      onClick: () => navigate('/current-guests'),
+    },
+    {
+      key: 'walk-in-reservation',
+      label: 'Walk-in Reservation',
+      onClick: () => navigate('/walk-in-reservation'),
+    },
+    {
+      key: 'services-revenue',
+      label: 'Services Revenue',
+      onClick: () => navigate('/services-revenue'),
+    },
+    {
+      key: 'reservation-details',
+      label: 'Reservation Details',
+      onClick: () => navigate('/reservation-details'),
+    },
+    {
+      key: 'logout',
       label: 'Logout',
       icon: <LogoutOutlined />,
       danger: true,
@@ -76,7 +122,8 @@ function AppLayout({ children }: any) {
           left: 0,
           top: 0,
           position: 'fixed',
-          color: 'white',
+          background: 'white',
+          borderBottom: '1px solid #f0f0f0',
         }}
       >
         <Menu
@@ -84,7 +131,6 @@ function AppLayout({ children }: any) {
             left: 0,
             position: 'fixed',
           }}
-          theme="dark"
           mode="horizontal"
           items={[
             {
@@ -104,7 +150,12 @@ function AppLayout({ children }: any) {
         >
           <Typography.Title
             level={3}
-            style={{ color: 'white', padding: 0, margin: 0 }}
+            style={{
+              color: '#001529',
+              padding: 0,
+              margin: 0,
+              userSelect: 'none',
+            }}
           >
             Hotel Reservation System
           </Typography.Title>
@@ -121,10 +172,8 @@ function AppLayout({ children }: any) {
           }}
         >
           <Menu
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
+            defaultSelectedKeys={[defaultSelectedKey]}
             mode="inline"
-            theme="dark"
             inlineCollapsed={collapsed}
             items={items}
             style={{ height: '100%' }}
